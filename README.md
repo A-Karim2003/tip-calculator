@@ -1,5 +1,7 @@
 # 💸 Tip Calculator
 
+![App Preview](./public/tip-calculator-preview.png)
+
 A modern **tip calculator** built with React that helps you calculate tips based on both your opinion _and_ your friend's opinion of the service.
 
 ---

@@ -1,17 +1,38 @@
 import { useState } from "react";
 
 function TipCalculator() {
-  const [bill, setBill] = useState(0);
+  const [bill, setBill] = useState("");
   const [service, setService] = useState("");
   const [friendService, setfriendService] = useState("");
 
+  const numericBill = Math.abs(Number(bill));
+
   function handleBill(e) {
-    setBill(Math.abs(Number(e.target.value)));
-    console.log(bill);
+    setBill(e.target.value);
   }
 
   function handleService(e, setState) {
     setState(Number(e.target.value));
+    console.log(service, friendService);
+  }
+
+  function calculateTip() {
+    if (
+      !Number.isFinite(service) ||
+      !Number.isFinite(friendService) ||
+      !service ||
+      !friendService
+    )
+      return `0.00`;
+
+    const average = (service + friendService) / 2;
+    return (average * numericBill).toFixed(2);
+  }
+
+  function resetCalculator() {
+    setBill(2);
+    setService("");
+    setfriendService("");
   }
 
   return (
@@ -26,6 +47,7 @@ function TipCalculator() {
           id="bill"
           placeholder="Enter bill amount"
           onChange={handleBill}
+          value={bill}
         />
       </div>
 
@@ -46,11 +68,18 @@ function TipCalculator() {
       </Service>
 
       <div className="result">
-        <h3>You pay ${bill}</h3>
-        <p>($20 + $12 tip)</p>
+        <h3>You pay ${numericBill}</h3>
+
+        {numericBill > 0 && (
+          <p>
+            (${numericBill} + ${calculateTip()} tip)
+          </p>
+        )}
       </div>
 
-      <button className="result-btn">Reset Calculator</button>
+      <button className="result-btn" onClick={resetCalculator}>
+        Reset Calculator
+      </button>
     </div>
   );
 }
@@ -61,11 +90,11 @@ function Service({ children, placeholder, onHandleService }) {
       <label htmlFor="service"> {children} </label>
       <select id="service" onChange={onHandleService}>
         <option value="">{placeholder}</option>
-        <option value="10">🤔 It was okay (10%)</option>
-        <option value="15">😊 Good service (15%)</option>
-        <option value="18">😍 Great service (18%)</option>
-        <option value="20">🤩 Excellent service (20%)</option>
-        <option value="25">🔥 Outstanding! (25%)</option>
+        <option value="0.10">🤔 It was okay (10%)</option>
+        <option value="0.15">😊 Good service (15%)</option>
+        <option value="0.18">😍 Great service (18%)</option>
+        <option value="0.20">🤩 Excellent service (20%)</option>
+        <option value="0.25">🔥 Outstanding! (25%)</option>
       </select>
     </div>
   );
