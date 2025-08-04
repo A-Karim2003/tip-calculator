@@ -30,7 +30,7 @@ function TipCalculator() {
   }
 
   function resetCalculator() {
-    setBill(2);
+    setBill("");
     setService("");
     setfriendService("");
   }
@@ -84,11 +84,11 @@ function TipCalculator() {
   );
 }
 
-function Service({ children, placeholder, onHandleService }) {
+function Service({ children, placeholder, onHandleService, service }) {
   return (
     <div className="form-group">
       <label htmlFor="service"> {children} </label>
-      <select id="service" onChange={onHandleService}>
+      <select id="service" value={service} onChange={onHandleService}>
         <option value="">{placeholder}</option>
         <option value="0.10">🤔 It was okay (10%)</option>
         <option value="0.15">😊 Good service (15%)</option>
@@ -101,3 +101,6 @@ function Service({ children, placeholder, onHandleService }) {
 }
 
 export default TipCalculator;
+
+//! Make the reset button empty the form and reset them to normal state
+//! refact the code and make each component go in its own file
