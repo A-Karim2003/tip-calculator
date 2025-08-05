@@ -1,5 +1,9 @@
 import { useState } from "react";
 
+import Service from "./Service";
+import Result from "./Result";
+import BillInput from "./BillInput";
+
 function TipCalculator() {
   const [bill, setBill] = useState("");
   const [service, setService] = useState("");
@@ -39,17 +43,7 @@ function TipCalculator() {
     <div className="container">
       <h1 className="title">✨ Tip Calculator</h1>
 
-      <div className="form-group">
-        <label htmlFor="bill">How much was the bill?</label>
-
-        <input
-          type="number"
-          id="bill"
-          placeholder="Enter bill amount"
-          onChange={handleBill}
-          value={bill}
-        />
-      </div>
+      <BillInput handleBill={handleBill} bill={bill} />
 
       <Service
         service={service}
@@ -67,15 +61,7 @@ function TipCalculator() {
         How did your friend like the service?
       </Service>
 
-      <div className="result">
-        <h3>You pay ${numericBill}</h3>
-
-        {numericBill > 0 && (
-          <p>
-            (${numericBill} + ${calculateTip()} tip)
-          </p>
-        )}
-      </div>
+      <Result calculateTip={calculateTip} numericBill={numericBill} />
 
       <button className="result-btn" onClick={resetCalculator}>
         Reset Calculator
@@ -84,23 +70,4 @@ function TipCalculator() {
   );
 }
 
-function Service({ children, placeholder, onHandleService, service }) {
-  return (
-    <div className="form-group">
-      <label htmlFor="service"> {children} </label>
-      <select id="service" value={service} onChange={onHandleService}>
-        <option value="">{placeholder}</option>
-        <option value="0.10">🤔 It was okay (10%)</option>
-        <option value="0.15">😊 Good service (15%)</option>
-        <option value="0.18">😍 Great service (18%)</option>
-        <option value="0.20">🤩 Excellent service (20%)</option>
-        <option value="0.25">🔥 Outstanding! (25%)</option>
-      </select>
-    </div>
-  );
-}
-
 export default TipCalculator;
-
-//! Make the reset button empty the form and reset them to normal state
-//! refact the code and make each component go in its own file
